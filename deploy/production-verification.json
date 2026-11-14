@@ -2,9 +2,10 @@
   "frontend": {
     "url": "https://usagi-christmas.front.cbgpu.com",
     "projectId": "46578a98-88b4-44e5-a957-a59358a4e9d2",
-    "deploymentId": "6cbdb097-b00b-4ead-8752-6297c55dad62",
-    "commit": "f3f7409f0623492c59a506b18a324ccc4242e559",
-    "status": "ready"
+    "deploymentId": "abc6c31b-1a9c-4d34-927b-940d027780e9",
+    "commit": "7cb51087ce20cec5c3796481b709deca33972fa2",
+    "status": "ready",
+    "sourceCommit": "b23e832c"
   },
   "server": {
     "url": "https://usagi-christmas-api.server.cbgpu.com",
@@ -50,7 +51,9 @@
     },
     "httpFrontendAndConfig": "200; API origin matches deployed server",
     "browserCorsPreflight": "200; frontend allowed",
-    "browserInteractionReview": "unavailable; browser host disconnected"
+    "browserInteractionReview": "unavailable; browser host disconnected",
+    "sharePageHttp": "200 text/html",
+    "publisher": "Isolated worktree publisher executed successfully; main working tree preserved"
   },
   "repository": {
     "url": "https://github.com/lmwmason/christmas-usagi",
