@@ -1,6 +1,6 @@
 {
   "version": "clean4",
-  "deployment": "not deployed",
+  "deployment": "CBGPU frontend and server deployed; see production-verification.json",
   "pitchModel": "RMVPE ONNX CPU",
   "fullSong": {
     "durationSeconds": 234.95315192743763,
@@ -37,13 +37,14 @@
     "pitchAnalysis": "RMVPE ONNX CPU"
   },
   "checks": {
-    "unitTests": 16,
+    "unitTests": 18,
     "javascriptSyntax": "passed",
     "staticBuild": "passed",
     "composeConfiguration": "passed",
     "audioHttpRange": "206 passed",
     "browserAndListeningReview": "not performed; browser host unavailable",
-    "dockerImageBuild": "not performed; daemon unavailable"
+    "dockerImageBuild": "remote CBGPU build and container health passed",
+    "sharedAudio": "local persistence/restart/expiry/quota tests and deployed sharing/HTTP Range/CORS verified"
   },
   "interpretation": "Coverage uses an automatically estimated separated-vocal mask with 50ms articulation tolerance. Pitch timings are local-machine measurements with ONNX 4 threads, not deployment-server performance. Voice is sample-based PSOLA, not a trained Usagi voice model."
 }

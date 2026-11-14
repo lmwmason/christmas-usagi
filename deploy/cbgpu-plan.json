@@ -1,5 +1,5 @@
 {
-  "status": "prepared_only_not_deployed",
+  "status": "deployed_and_verified",
   "limitsSource": "https://github.com/CBGPU-Engineering/CBGPU-mcp/blob/v1.0.1/src/server.mjs",
   "verifiedMcpInputLimits": {
     "cpuCores": 4,
@@ -7,7 +7,7 @@
     "storageGb": 200,
     "gpuAllocationField": false
   },
-  "accountCapacityVerified": false,
+  "accountCapacityVerified": true,
   "serverPlan": {
     "mode": "compose",
     "cpu_limit": 4,
@@ -26,13 +26,17 @@
   },
   "frontendPlan": {
     "framework": "static",
-    "build_command": "node tools/build_frontend.mjs",
-    "output_directory": "dist"
+    "build_command": "",
+    "output_directory": ".",
+    "branch": "frontend",
+    "install_command": "",
+    "auto_deploy": false
   },
-  "remainingDeploymentConfiguration": [
-    "Git repository and project identities",
-    "Actual CBGPU capacity and resource acceptance",
-    "Returned server origin for frontend API configuration",
-    "Returned frontend origin for CORS"
-  ]
+  "remainingDeploymentConfiguration": [],
+  "serverProjectId": "d5bc47db-cc61-48ed-8388-fbd7b08f1f8f",
+  "frontendProjectId": "46578a98-88b4-44e5-a957-a59358a4e9d2",
+  "serverUrl": "https://usagi-christmas-api.server.cbgpu.com",
+  "frontendUrl": "https://usagi-christmas.front.cbgpu.com",
+  "repository": "https://github.com/lmwmason/christmas-usagi",
+  "capacityVerification": "Requested 4 CPU / 16g RAM / 40GB accepted; remote Compose build and container health passed. Physical hardware details are not exposed."
 }

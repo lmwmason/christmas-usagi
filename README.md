@@ -6,6 +6,9 @@ The frontend uses plain HTML, CSS, and JavaScript. A Python service separates th
 
 <p align="center"><img src="assets/images/usagi-official.png" width="180" alt="Usagi cheering with pom-poms"></p>
 
+**Live stage:** https://usagi-christmas.front.cbgpu.com  
+**API:** https://usagi-christmas-api.server.cbgpu.com
+
 ## Features
 
 - Convert a complete song or start with a 30-second or one-minute excerpt.
@@ -114,7 +117,15 @@ docker run --rm -p 127.0.0.1:8000:8000 -v usagi-data:/data christmas-usagi
 - `USAGI_CPU_THREADS`: processing thread count, capped at four.
 - `PORT`: HTTP port, default `8000` in the container.
 
-The API and static frontend are deployed as separate CBGPU projects. Deployment settings and verification records live in `deploy/`.
+The API and static frontend are deployed as separate CBGPU projects. The API builds `main` with Compose. The frontend serves the generated `frontend` branch with framework `static`, output directory `.`, and empty install/build commands. This avoids a CBGPU build-worker symlink/path issue encountered during the initial deployment.
+
+After committing source changes to `main`, rebuild and publish the static branch:
+
+```bash
+python tools/publish_frontend.py --api-base https://usagi-christmas-api.server.cbgpu.com
+```
+
+Then request a frontend redeployment through CBGPU. The publisher uses an isolated temporary worktree and a regular fast-forward push; it does not switch or overwrite your working branch. Frontend auto-deploy is disabled so promotion stays explicit. Deployment settings and verification records live in `deploy/`.
 
 ## Validation
 
@@ -128,7 +139,7 @@ docker compose --env-file /dev/null config --quiet
 
 Tests cover input validation, queue limits, cancellation, retry deduplication, missing vocal passages, instrumental leakage, source exclusions, pitch decoding, audio seeking, sharing, expiration, storage limits, and recovery after the original job is removed or the server restarts.
 
-The current local suite has **18 passing tests**. Actual YouTube conversion and seekable shared audio have also been exercised. Browser interaction review was unavailable because the browser host was disconnected. Local container builds were unavailable because the Docker daemon was stopped; remote deployment checks are recorded separately.
+The current local suite has **18 passing tests**. Actual YouTube conversion and seekable shared audio have also been exercised on the deployed CBGPU server, with both AI model caches ready. Browser interaction review was unavailable because the browser host was disconnected. Local container builds were unavailable because the Docker daemon was stopped; the CBGPU remote Docker build and container health check passed. Remote conversion and sharing checks are recorded in `deploy/`.
 
 ## Project layout
 

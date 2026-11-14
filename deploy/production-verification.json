@@ -1,0 +1,61 @@
+{
+  "frontend": {
+    "url": "https://usagi-christmas.front.cbgpu.com",
+    "projectId": "46578a98-88b4-44e5-a957-a59358a4e9d2",
+    "deploymentId": "6cbdb097-b00b-4ead-8752-6297c55dad62",
+    "commit": "f3f7409f0623492c59a506b18a324ccc4242e559",
+    "status": "ready"
+  },
+  "server": {
+    "url": "https://usagi-christmas-api.server.cbgpu.com",
+    "projectId": "d5bc47db-cc61-48ed-8388-fbd7b08f1f8f",
+    "sourceCommit": "b9c0b03",
+    "status": "ready; Compose container healthy",
+    "health": {
+      "status": "ok",
+      "soundCount": 17,
+      "maxVideoSeconds": 600,
+      "modelReady": true,
+      "pitchModelReady": true,
+      "pitchAnalysis": "RMVPE ONNX CPU",
+      "sourcePolicyVersion": 1,
+      "processing": {
+        "cpuThreads": 4,
+        "conversionWorkers": 1,
+        "deploymentMemoryTarget": "16g"
+      }
+    }
+  },
+  "validation": {
+    "youtubeJobId": "efef20ab1fc5454a9d9664859dfce6b5",
+    "status": "completed",
+    "duration": 14.0,
+    "pitchAnalysis": "RMVPE ONNX CPU",
+    "vocalCoverage": {
+      "referenceSeconds": 11.633197278911565,
+      "coveredSeconds": 11.633197278911565,
+      "ratio": 1.0,
+      "maxGapSeconds": 0,
+      "articulationToleranceMs": 50
+    },
+    "rejectedSourceUsed": false,
+    "shareUrl": "https://usagi-christmas.front.cbgpu.com/?share=9139e4a4bc6a44d1be441e9ffc13b05b",
+    "shareExpiresAt": 1797265403.8748813,
+    "idempotentShareCreation": true,
+    "sharedMetadataMatches": true,
+    "audioRangeChecks": {
+      "mix": "206; 100 bytes; frontend CORS allowed",
+      "voice": "206; 100 bytes; frontend CORS allowed",
+      "backing": "206; 100 bytes; frontend CORS allowed"
+    },
+    "httpFrontendAndConfig": "200; API origin matches deployed server",
+    "browserCorsPreflight": "200; frontend allowed",
+    "browserInteractionReview": "unavailable; browser host disconnected"
+  },
+  "repository": {
+    "url": "https://github.com/lmwmason/christmas-usagi",
+    "visibility": "public",
+    "readmeLanguage": "English",
+    "originalCodeLicense": "Apache-2.0"
+  }
+}
