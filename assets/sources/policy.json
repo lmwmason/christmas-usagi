@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "blocked": [
+    {
+      "id": "yahayaha-yahayaha-54503",
+      "sha256": "862b5420d9a68309cf4b5d595f909862d069013f7651100546fd1995f056828b",
+      "reason": "Contains the user-reported ordinary dialogue ここにいたんだ at source 3.92–4.50s; used at song 24.33s. Whole recording excluded.",
+      "evidence": "User timestamp + phrase provenance + faster-whisper base Japanese transcription"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "status": "prepared_only_not_deployed",
+  "limitsSource": "https://github.com/CBGPU-Engineering/CBGPU-mcp/blob/v1.0.1/src/server.mjs",
+  "verifiedMcpInputLimits": {
+    "cpuCores": 4,
+    "memory": "16g",
+    "storageGb": 200,
+    "gpuAllocationField": false
+  },
+  "accountCapacityVerified": false,
+  "serverPlan": {
+    "mode": "compose",
+    "cpu_limit": 4,
+    "memory_limit": "16g",
+    "storage_gb": 40,
+    "compose_file": "compose.yaml",
+    "gateway_service": "api",
+    "container_port": 8000,
+    "conversionWorkers": 1,
+    "onnxThreads": 4,
+    "aiModels": [
+      "UVR-MDX-NET-Inst_HQ_3 ONNX instrumental separation",
+      "RMVPE ONNX singing F0 (SHA-256 pinned)"
+    ],
+    "pitchChunkSeconds": 5
+  },
+  "frontendPlan": {
+    "framework": "static",
+    "build_command": "node tools/build_frontend.mjs",
+    "output_directory": "dist"
+  },
+  "remainingDeploymentConfiguration": [
+    "Git repository and project identities",
+    "Actual CBGPU capacity and resource acceptance",
+    "Returned server origin for frontend API configuration",
+    "Returned frontend origin for CORS"
+  ]
+}

@@ -1,0 +1,17 @@
+services:
+  api:
+    build: .
+    expose:
+      - "8000"
+    environment:
+      PORT: "8000"
+      USAGI_DATA_DIR: /data
+      USAGI_CPU_THREADS: "4"
+      USAGI_ALLOWED_ORIGINS: "${USAGI_ALLOWED_ORIGINS:-https://usagi-christmas.front.cbgpu.com,http://localhost:8000,http://127.0.0.1:8000}"
+    cpus: 4
+    mem_limit: 16g
+    restart: unless-stopped
+    volumes:
+      - usagi-data:/data
+volumes:
+  usagi-data:

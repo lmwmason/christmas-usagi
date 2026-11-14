@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7f4e9">
+  <meta name="description" content="우라! 눈 내리는 작은 무대, 우사기와 함께하는 크리스마스 라이브.">
+  <title>우사기의 크리스마스 라이브 🎄</title>
+  <link rel="stylesheet" href="style.css?v=share1">
+  <script src="assets/soundbank.js?v=clean4" defer></script>
+  <script src="assets/performance.js?v=clean4" defer></script>
+  <script src="config.js" defer></script>
+  <script src="script.js?v=share1" defer></script>
+</head>
+<body>
+  <div class="snowfall" id="snowfall" aria-hidden="true"></div>
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
+  <div class="page-shell">
+    <header class="site-header">
+      <a href="#" class="wordmark" aria-label="우사기의 작은 무대 홈">
+        <img class="brand-bunny" src="assets/images/usagi-official.png" width="318" height="319" alt="" aria-hidden="true">
+        <span>USAGI’S<span class="wordmark-sub">LITTLE CHRISTMAS</span></span>
+      </a>
+      <nav aria-label="주 메뉴"><a href="#stage" class="nav-stage">작은 무대 <span>↗</span></a><button id="helpButton" class="text-button">즐기는 방법 <span>↗</span></button></nav>
+      <div class="header-note"><span class="tiny-star">✳</span> MADE OF CHRISTMAS MAGIC</div>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="mainTitle">
+        <div class="eyebrow"><span></span> A VERY USAGI CHRISTMAS <span></span></div>
+        <div class="title-wrap"><span class="title-spark spark-left" aria-hidden="true">✧</span><h1 id="mainTitle">All I want for<br>Christmas is <span class="usagi-word">우사기<svg viewBox="0 0 260 17" aria-hidden="true"><path d="M4 12 Q126-4 256 9 M34 16 Q146 6 231 14"/></svg></span><span class="title-dot">.</span></h1><span class="title-spark spark-right" aria-hidden="true">✧</span></div>
+        <p>올해 크리스마스에 필요한 건, 우사기 한 마리면 충분해. <span>야하!</span></p>
+      </section>
+
+      <section class="song-request" aria-labelledby="requestTitle">
+        <div class="request-heading"><div><span class="dialog-eyebrow">YOUR SONG, USAGI’S VOICE</span><h2 id="requestTitle">이번엔 무슨 노래 부를까?</h2></div><span class="connection-badge" id="connectionStatus">공연 준비실 확인 중</span></div>
+        <form id="conversionForm">
+          <label class="sr-only" for="youtubeUrl">노래의 YouTube 영상 링크</label>
+          <div class="url-row"><span aria-hidden="true">♫</span><input id="youtubeUrl" name="youtube_url" type="url" required maxlength="2048" placeholder="YouTube 노래 링크를 넣어줘!" value="https://www.youtube.com/watch?v=yXQViqx6GMY"><button id="convertButton" type="submit" disabled>우사기, 불러줘! <span aria-hidden="true">↗</span></button></div>
+          <div class="request-options"><label>공연 길이 <select id="songLength"><option value="">한 곡 전체</option><option value="30">30초 먼저 듣기</option><option value="60">1분 먼저 듣기</option></select></label><label>시작 시각 <input id="songStart" type="number" min="0" max="595" step="1" value="0" aria-label="시작 시각, 초"> 초</label><span>10분 이하 공개 영상 · 처음 준비할 때는 조금 걸려요</span></div>
+        </form>
+        <p class="connection-note" id="connectionNote">기다리는 동안 아래 크리스마스 샘플 공연을 들어봐요.</p>
+        <div class="conversion-status" id="conversionStatus" hidden>
+          <div class="job-topline"><strong id="jobTitle">우사기가 무대에 오를 준비 중!</strong><button id="cancelJobButton" type="button">준비 취소</button></div>
+          <div class="job-progress" id="jobProgress" role="progressbar" aria-label="공연 준비 진행률" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
+          <p id="jobMessage" role="status" aria-live="polite">공연을 준비하고 있어요.</p>
+          <div class="job-result" id="jobResult" hidden><button id="playResultButton" type="button">공연 시작 ▷</button><a id="downloadResult" download="usagi-performance.mp3">공연 음원 받기 ↓</a></div>
+        </div>
+      </section>
+
+      <section class="concert" id="stage" aria-label="우사기 크리스마스 무대">
+        <div class="stage" id="stageScene">
+          <div class="stage-grain" aria-hidden="true"></div>
+          <div class="stage-topline"><span class="live-badge" id="liveBadge"><i></i> READY TO SING</span><span class="stage-edition">THE CHRISTMAS SPECIAL — VOL. 01</span><button class="sound-toggle" id="lightButton" aria-label="무대 조명 끄기" aria-pressed="true" title="무대 조명">☀</button></div>
+          <svg class="string-lights" viewBox="0 0 1100 90" preserveAspectRatio="none" aria-hidden="true"><path d="M-10 5Q550 155 1110 5" fill="none" stroke="#587866" stroke-width="2"/><g class="bulbs"><ellipse cx="40" cy="19" rx="6" ry="10" fill="#eaa15a"/><ellipse cx="130" cy="40" rx="6" ry="10" fill="#ce5d4b"/><ellipse cx="225" cy="58" rx="6" ry="10" fill="#f5d17a"/><ellipse cx="330" cy="73" rx="6" ry="10" fill="#70a08a"/><ellipse cx="440" cy="82" rx="6" ry="10" fill="#ce5d4b"/><ellipse cx="550" cy="85" rx="6" ry="10" fill="#f5d17a"/><ellipse cx="660" cy="82" rx="6" ry="10" fill="#70a08a"/><ellipse cx="770" cy="73" rx="6" ry="10" fill="#eaa15a"/><ellipse cx="875" cy="58" rx="6" ry="10" fill="#ce5d4b"/><ellipse cx="970" cy="40" rx="6" ry="10" fill="#f5d17a"/><ellipse cx="1060" cy="19" rx="6" ry="10" fill="#70a08a"/></g></svg>
+          <div class="scene-stars" aria-hidden="true"><span>✧</span><span>✳</span><span>✦</span><span>✧</span><span>✦</span><span>✧</span></div>
+          <div class="speech-bubble" id="speechBubble">우라! 크리스마스다!</div>
+
+          <svg class="tree tree-left" viewBox="0 0 210 300" aria-hidden="true"><path d="m105 7 5 13 14 1-11 9 4 14-12-8-12 8 4-14-11-9 14-1Z" fill="#e2b85c"/><path d="M96 247h19v48H96z" fill="#9e6e50"/><path d="m105 38-58 88h29l-51 76h37l-48 66h181l-48-66h37l-51-76h29Z" fill="#497660"/><path d="m105 38 58 88h-30l51 76h-37l48 66h-90Z" fill="#3e6b55"/><path d="M65 110q40 34 79 0M44 180q61 44 122 0M36 244q68 26 139-1" stroke="#edce89" stroke-width="3" fill="none"/><g fill="#c76654"><circle cx="86" cy="123" r="6"/><circle cx="133" cy="184" r="7"/><circle cx="69" cy="225" r="7"/></g><g fill="#f2d69b"><circle cx="124" cy="96" r="5"/><circle cx="83" cy="173" r="5"/><circle cx="147" cy="240" r="5"/></g></svg>
+          <svg class="tree tree-right" viewBox="0 0 210 300" aria-hidden="true"><path d="m105 7 5 13 14 1-11 9 4 14-12-8-12 8 4-14-11-9 14-1Z" fill="#e2b85c"/><path d="M96 247h19v48H96z" fill="#9e6e50"/><path d="m105 38-58 88h29l-51 76h37l-48 66h181l-48-66h37l-51-76h29Z" fill="#62846b"/><path d="m105 38 58 88h-30l51 76h-37l48 66h-90Z" fill="#52785e"/><path d="M65 110q40 34 79 0M44 180q61 44 122 0M36 244q68 26 139-1" stroke="#edce89" stroke-width="3" fill="none"/><g fill="#c76654"><circle cx="86" cy="123" r="6"/><circle cx="133" cy="184" r="7"/><circle cx="69" cy="225" r="7"/></g><g fill="#f2d69b"><circle cx="124" cy="96" r="5"/><circle cx="83" cy="173" r="5"/><circle cx="147" cy="240" r="5"/></g></svg>
+          <div class="gift gift-one" aria-hidden="true"><i></i></div><div class="gift gift-two" aria-hidden="true"><i></i></div><div class="gift gift-three" aria-hidden="true"><i></i></div>
+          <div class="spotlight" aria-hidden="true"></div>
+          <div class="platform" aria-hidden="true"></div>
+          <div class="bunny-shadow" aria-hidden="true"></div>
+
+          <button class="usagi" id="usagiButton" aria-label="우사기를 눌러 응원하기" title="우사기를 눌러봐!">
+            <img class="usagi-image" src="assets/images/usagi-official.png" width="318" height="319" alt="양손에 응원 도구를 들고 신난 우사기" draggable="false" fetchpriority="high">
+          </button>
+          <svg class="microphone" viewBox="0 0 65 210" aria-hidden="true"><path d="M30 57v141M5 204l25-10 27 10" fill="none" stroke="#5c6255" stroke-width="4" stroke-linecap="round"/><g transform="rotate(-21 32 35)"><rect x="18" y="5" width="27" height="52" rx="13" fill="#6d7568" stroke="#424b43" stroke-width="2"/><path d="M19 25h25m-25 6h25m-25 6h25" stroke="#c5cabe" stroke-width="2"/><path d="M14 43v6a17 17 0 0 0 35 0v-6" stroke="#424b43" stroke-width="3" fill="none"/></g></svg>
+          <div class="music-notes" aria-hidden="true"><span>♪</span><span>♫</span><span>♪</span></div>
+          <div class="stage-bottomline"><span>ONE BUNNY. A WHOLE LOT OF JOY.</span><span class="stage-signature">with love, Usagi ♡</span></div>
+        </div>
+
+        <div class="player">
+          <div class="track-info"><div class="album-art" aria-hidden="true"><img src="assets/images/usagi-official.png" width="318" height="319" alt=""></div><div class="track-copy"><span class="track-kicker" id="trackKicker">USAGI CHRISTMAS LIVE</span><h2 id="trackTitle">All I Want for Christmas Is You</h2><p id="trackArtist">Mariah Carey 원곡 · 우사기 버전</p></div></div>
+          <div class="transport"><button class="icon-button replay-button" id="replayButton" aria-label="처음부터 재생" title="처음부터">↺</button><button class="play-button" id="playButton" aria-label="재생"><svg viewBox="0 0 24 24" aria-hidden="true" id="playIcon"><path d="m9 5 11 7-11 7Z" fill="currentColor"/></svg></button><button class="icon-button" id="loopButton" aria-label="반복 재생 켜기" aria-pressed="false" title="반복 재생">↻</button></div>
+          <div class="volume-control"><button class="icon-button" id="muteButton" aria-label="음소거" title="음소거"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M17 8q5 4 0 8" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><input id="volume" type="range" min="0" max="100" value="65" aria-label="음량"><span id="volumeValue">65%</span></div>
+          <div class="progress-row"><span id="currentTime">0:00</span><input id="progress" type="range" min="0" max="1" step="0.01" value="0" aria-label="재생 위치"><span id="duration">—</span></div>
+        </div>
+      </section>
+
+      <div class="mix-controls" aria-label="공연 반주 설정">
+        <button id="bgmButton" class="pill-button is-active" aria-pressed="true"><span aria-hidden="true">♫</span> <span id="bgmLabel">반주 켜짐</span></button>
+        <p>원곡 <strong id="originalSongName">All I Want for Christmas Is You</strong><span id="originalArtist"> · Mariah Carey</span></p>
+        <a id="originalSongLink" href="https://www.youtube.com/watch?v=yXQViqx6GMY&amp;t=46s" target="_blank" rel="noopener noreferrer">같은 구간 원곡 듣기 ↗</a>
+      </div>
+
+      <div class="stage-tools"><div class="tools-left"><button class="pill-button is-active" id="snowButton" aria-pressed="true"><span>❄</span> 눈 내리기</button><button class="pill-button" id="cheerButton"><span>♡</span> 우사기 응원하기 <span class="cheer-count" id="cheerCount">0</span></button></div><button class="music-button" id="musicButton"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M8 14V4l8-2v10M8 6l8-2" fill="none" stroke="currentColor" stroke-width="1.5"/><ellipse cx="5" cy="15" rx="3" ry="2" fill="currentColor"/><ellipse cx="13" cy="13" rx="3" ry="2" fill="currentColor"/></svg> 우사기 소리 모음 <span>↗</span></button></div>
+      <div class="share-row"><button class="pill-button" id="shareButton" type="button">↗ 이 공연 공유하기</button><span>마음에 드는 우사기 공연을 친구에게 보내줘!</span></div>
+
+      <div class="little-note"><span aria-hidden="true">✳</span><p>노래는 잘 몰라도, 신나는 건 안다구.<br><strong>우사기와 함께 잠깐, 메리 크리스마스!</strong></p><span aria-hidden="true">✳</span></div>
+    </main>
+    <p class="image-credit"><a href="https://www.anime-chiikawa.jp/" target="_blank" rel="noopener noreferrer">우사기 이미지: 치이카와 애니메이션 공식 사이트 ↗</a><span>©ナガノ / ちいかわ製作委員会</span></p>
+    <footer><span>A LITTLE STAGE, A VERY BIG CHRISTMAS.</span><span>비공식 팬 메이드 · MADE WITH ♡ & 야하!</span><a href="#mainTitle" aria-label="위로 가기">BACK TO TOP ↑</a></footer>
+  </div>
+
+  <dialog id="shareDialog" aria-labelledby="shareTitle">
+    <button class="dialog-close" data-close aria-label="닫기">×</button>
+    <span class="dialog-eyebrow">PASS THE YAHA!</span><h2 id="shareTitle">이 공연, 같이 듣자.</h2>
+    <p id="shareSongTitle"></p><p id="shareMessage" role="status" aria-live="polite">공유 링크를 준비하고 있어요.</p>
+    <div id="shareControls" hidden><label class="sr-only" for="shareLink">공연 공유 링크</label><input id="shareLink" type="url" readonly spellcheck="false"><div class="share-actions"><button id="copyShareButton" type="button">링크 복사</button><button id="nativeShareButton" type="button" hidden>다른 앱으로 공유 ↗</button></div></div>
+    <p class="dialog-footnote" id="shareFootnote">링크를 아는 사람은 누구나 이 공연을 들을 수 있어요.</p>
+  </dialog>
+  <dialog id="musicDialog" class="soundbank-dialog" aria-labelledby="musicDialogTitle">
+    <button class="dialog-close" data-close aria-label="닫기">×</button>
+    <span class="dialog-eyebrow">THE MANY SOUNDS OF USAGI</span>
+    <h2 id="musicDialogTitle">우사기의 온갖 소리.</h2>
+    <p>우라, 우나, 브르르, 하아?! 짧은 외침부터 긴 구절까지.<br>Myinstants의 개별 우사기 효과음을 원본 그대로 들어봐요.</p>
+    <div class="bank-filters" role="group" aria-label="발성 종류"><button class="bank-filter" data-group="all" aria-pressed="true">전체 <span id="bankCount"></span></button><button class="bank-filter" data-group="short" aria-pressed="false">짧은 외침</button><button class="bank-filter" data-group="phrases" aria-pressed="false">말과 구절</button><button class="bank-filter" data-group="long" aria-pressed="false">긴 발성 · 노래</button></div>
+    <div id="soundbankList" class="soundbank-list"></div>
+    <button class="music-option" id="previewButton"><span class="option-icon">▷</span><span><strong>우사기 공연 다시 듣기</strong><small>All I Want for Christmas Is You · 우사기 버전</small></span><span>↗</span></button>
+    <a class="sample-source" href="https://www.myinstants.com/ko/search/?name=chiikawa" target="_blank" rel="noopener noreferrer">개별 소리 출처: Myinstants ↗</a>
+    <p class="dialog-footnote">우사기라고 표시된 개별 음원에서 모았어요. 동일 파일은 하나로 합쳤어요.<br>위에 노래 링크를 넣으면 새로운 우사기 공연을 준비할 수 있어요.</p>
+  </dialog>
+  <dialog id="helpDialog" aria-labelledby="helpTitle"><button class="dialog-close" data-close aria-label="닫기">×</button><span class="dialog-eyebrow">A TINY GUIDE TO JOY</span><h2 id="helpTitle">우사기 무대 즐기기</h2><ol class="help-list"><li><span>01</span><div><strong>재생 버튼을 눌러요.</strong><p>원곡 반주와 우사기의 다양한 발성에 맞춰 우사기가 춤춰요.</p></div></li><li><span>02</span><div><strong>목소리를 비교해서 들어봐요.</strong><p>‘우사기 소리 모음’에서 짧은 외침, 긴 발성, 여러 말이 이어지는 구절을 원본으로 들어볼 수 있어요.</p></div></li><li><span>03</span><div><strong>우사기에게 마음을 보내요.</strong><p>우사기나 응원 버튼을 눌러봐요. 눈과 조명도 원하는 대로!</p></div></li></ol><p class="keyboard-hint"><kbd>Space</kbd> 재생 / 일시 정지 <span>·</span> <kbd>M</kbd> 음소거</p></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
