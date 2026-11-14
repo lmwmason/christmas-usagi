@@ -1,10 +1,28 @@
-# 우사기의 크리스마스 무대
+# Christmas Usagi
 
-순수 HTML/CSS/JS 프론트와 Python 변환 서버입니다. YouTube 노래 링크를 넣으면 원곡의 반주를 분리하고, 여러 우사기 발성을 멜로디와 박자에 맞춰 편곡한 공연을 만듭니다. 배포는 아직 하지 않았습니다.
+A small Christmas stage where Usagi performs your favorite songs. Paste a YouTube link, generate a performance, and share the finished song with a friend.
 
-## 로컬에서 사용
+The frontend uses plain HTML, CSS, and JavaScript. A Python service separates the instrumental, estimates the vocal melody with an AI pitch model, and arranges real Usagi sound samples to the music.
 
-샘플 공연만 들으려면 `index.html`을 열면 됩니다. 링크 변환까지 사용하려면 FFmpeg, Node.js 20 이상, Python 3.11 이상과 uv를 준비하고 아래처럼 실행하세요.
+<p align="center"><img src="assets/images/usagi-official.png" width="180" alt="Usagi cheering with pom-poms"></p>
+
+## Features
+
+- Convert a complete song or start with a 30-second or one-minute excerpt.
+- Keep the song recognizable with its separated instrumental backing.
+- Combine varied Usagi calls with pitch-synchronous singing and energetic rhythmic phrases.
+- Synchronize dancing to the audio playback position, including after seeking.
+- Switch between the full mix and isolated Usagi vocals without losing your place.
+- Share a finished performance through a link, clipboard copy, or the device share menu.
+- Keep shared performances for 30 days, independently of temporary conversion jobs.
+- Download the audio, browse the source soundbank, and enjoy snow, lights, and cheering effects.
+- Support reduced motion and keyboard controls: **Space** to play/pause and **M** to mute.
+
+The current user interface is in Korean. This is an unofficial fan project.
+
+## Run locally
+
+Requirements: Python 3.11+, FFmpeg, Node.js 20+, and [uv](https://docs.astral.sh/uv/).
 
 ```bash
 uv venv .venv
@@ -12,77 +30,125 @@ uv pip install --python .venv/bin/python -r server/requirements.txt
 .venv/bin/python -m uvicorn server.app:app --host 127.0.0.1 --port 8000 --workers 1
 ```
 
-브라우저에서 `http://127.0.0.1:8000`을 엽니다. 한 곡 전체 또는 30초·1분 미리 듣기를 선택할 수 있습니다. 공개된 10분 이하 YouTube 영상만 받습니다. 링크 확인, 반주 분리, 멜로디 분석, 편곡, 믹싱의 진행 상태가 표시됩니다. 준비를 취소하거나 새로고침 후 진행 중인 공연을 복구할 수 있습니다.
+Open **http://127.0.0.1:8000**. No paid AI API key is required. Opening `index.html` directly also plays the bundled example, but conversion and share links require the server.
 
-기본 재생은 원곡 반주와 우사기 보컬을 미리 섞은 파일입니다. ‘반주 켜짐’ 버튼을 누르면 같은 위치의 우사기 보컬만 들을 수 있습니다. 원곡 링크는 편곡에 쓴 시작 구간으로 연결됩니다. 음량·탐색·반복 재생, 완성 음원 다운로드, 눈·조명·응원 효과를 지원합니다. 춤은 반주에서 추정한 박자 시각과 현재 재생 위치에 맞춰 움직여 탐색 후에도 다시 맞춰집니다. 단축키는 `Space` 재생/일시 정지, `M` 음소거입니다.
+Use public, non-live YouTube videos up to 10 minutes long. YouTube access restrictions can prevent downloading some videos; the application reports these failures without exposing extractor logs.
 
-## 목소리와 음악 처리
+## How the audio works
 
-- 사용자 제공 Myinstants 페이지에서 개별 설명에 Chiikawa Usagi라고 표시된 **서로 다른 원본 효과음 17종**을 모았습니다. 짧은 외침, 말과 구절, 긴 발성과 노래를 분류해서 원본으로 들을 수 있습니다. 각 소리의 출처가 연결되어 있습니다.
-- 동일한 파일은 SHA-256으로 중복 제거했습니다. 다른 캐릭터라고 표시된 효과음은 제외합니다. 소프트웨어가 화자를 식별하는 방식이 아니라 개별 출처의 캐릭터 표시에 근거합니다.
-- 원곡은 UVR MDX 모델로 반주를 분리합니다. 멜로디 분석에는 분리한 원곡 보컬과 RMVPE ONNX AI 음정 모델을 사용합니다. CPU 4스레드, 5초 단위와 겹침 문맥으로 처리해 메모리를 제한합니다. 보컬 활동 구간을 음정 분석과 별도로 감지합니다. 감지한 모든 보컬 구간을 박자의 1/2·1·2·4박 패턴으로 채우며, 단순히 음정이 읽힌 곳만 재생하지 않습니다. 음정 추적에 실패한 발음도 빠뜨리지 않고 박자에 맞는 우사기 랩으로 채웁니다. Praat 피치 동기식 합성으로 멜로디를 맞추고, 빠른 발성 패턴과 자연스러운 추임새를 배치합니다. 고정 옥타브 전조는 사용하지 않으며 길이 변경은 원본의 0.82~1.22배, 음정 변경은 최대 ±6반음으로 제한합니다. 원래 억양 일부를 남기고 반주 비중을 높였습니다.
-- 전체 곡 24.33초에 들어갔던 `ここにいたんだ` 대사는 `Yahayaha Yahayaha` 원본 끝부분에서 확인했습니다. 해당 파일 전체를 제거하고 `assets/sources/policy.json`의 ID·SHA-256 차단 규칙을 다운로드와 합성 모두에 적용했습니다. 음성인식은 우사기어를 일반 단어로 오인할 수 있으므로 다른 샘플의 화자를 자동 보증하지 않습니다.
-- 목소리는 샘플의 음정과 길이를 바꾸는 편곡입니다. 학습한 우사기 AI 가창 모델은 아닙니다. 음정 추정과 발음의 자연스러움은 아직 개선할 여지가 있습니다.
-- GPU나 유료 AI API를 쓰지 않습니다. 첫 변환에서 약 64MB의 반주 분리 모델과 362MB의 AI 음정 모델을 내려받아 검증하고 캐시합니다. 이후에는 재사용합니다. YouTube 자체의 접근 제한으로 다운로드에 실패하면 재시도할 수 있는 오류를 표시합니다.
+1. Download the selected song with yt-dlp.
+2. Separate the instrumental with **UVR-MDX-NET-Inst_HQ_3 ONNX** and derive a vocal guide.
+3. Analyze singing pitch with **RMVPE ONNX**, using four CPU threads and overlapping five-second windows.
+4. Detect vocal activity independently of pitch, so consonants and unpitched passages can still receive rhythmic Usagi phrases.
+5. Arrange actual soundbank utterances and use **Praat PSOLA** to follow the melody. Time changes stay within 0.82–1.22 times the original duration; pitch changes stay within six semitones.
+6. Audit vocal coverage, add short responses in musical rests, and master aligned mix, vocal, and instrumental files.
 
-## 서버
+This is sample-based resynthesis assisted by AI separation and pitch analysis. It is **not a trained Usagi voice-cloning or singing model**. Pitch estimates, speaker labels, and musical naturalness can still be imperfect. Coverage measures an automatically estimated vocal mask, with 50 ms articulation tolerance; it is not a human transcription score.
 
-`server/app.py`는 작업 큐와 HTTP API를, `server/worker.py`는 실제 변환을 담당합니다. 무거운 변환은 한 번에 하나씩 처리하고, 대기 포함 최대 3개를 받습니다. 중복 전송에는 같은 요청 토큰을 사용해 중복 변환을 방지합니다. 완성된 파일은 최대 24시간, 최근 10개 작업까지만 보관합니다. 작업별 임의 식별자로 조회하므로 결과 URL을 아는 사람은 그 공연을 들을 수 있습니다.
+The first conversion downloads approximately 64 MB of separation weights and 362 MB of pitch weights, then caches them. RMVPE weights are SHA-256 verified. The source soundbank records provenance and hashes; known contaminated recordings are blocked by both ID and content hash.
 
-- `GET /api/health`: 서버 상태
-- `POST /api/jobs`: `{ "youtube_url": "https://youtu.be/...", "start": 0, "duration": null }`
-- `GET /api/jobs/{id}`: 진행 상태와 완성 데이터
-- `DELETE /api/jobs/{id}`: 준비 취소
-- `GET /api/jobs/{id}/audio/mix`: 반주 포함 공연
-- `GET /api/jobs/{id}/audio/voice`: 보컬만
-- `GET /api/jobs/{id}/audio/backing`: 분리한 반주
+## Sharing and storage
 
-음원은 HTTP Range 탐색을 지원합니다. `?download=true`를 붙이면 다운로드합니다. 변환 데이터와 모델은 기본 `.cache/runtime/`에 저장합니다. `USAGI_DATA_DIR`로 저장 위치를, `USAGI_ALLOWED_ORIGINS`로 별도 프론트 도메인의 CORS 허용 목록을 지정할 수 있습니다. 계정 비밀번호나 외부 서비스 API 키는 필요하지 않습니다.
+After conversion, choose **Share this performance** beneath the stage. The generated `?share=...` link loads the same audio and choreography without converting the song again. Shared links take precedence over the browser's previously restored job. Playback starts only when the visitor presses play.
 
-## 프론트 빌드와 배포 준비
+| Data | Retention |
+| --- | --- |
+| Temporary jobs | Up to 24 hours and the 10 most recent completed jobs |
+| Explicitly shared performances | 30 days from creation |
+| Shared audio storage | 2 GiB total; new shares are refused when full |
+| Model cache | Persistent and reused |
+
+Shared copies contain only the three playable audio files and playback metadata. They survive removal of the original job and application restarts when `/data` uses persistent storage. Existing shares are not evicted early to make room. Expired copies are cleaned during subsequent share creation or startup.
+
+Anyone with a share URL can listen to that performance. Localhost links work only on your computer; use the deployed frontend address when sharing with other people.
+
+## API
+
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| GET | `/api/health` | Readiness and processing configuration |
+| POST | `/api/jobs` | Create a conversion |
+| GET | `/api/jobs/{id}` | Progress and completed performance |
+| DELETE | `/api/jobs/{id}` | Cancel a queued or running conversion |
+| GET | `/api/jobs/{id}/audio/{kind}` | Temporary mix, voice, or backing audio |
+| POST | `/api/jobs/{id}/share` | Persist a completed performance for sharing |
+| GET | `/api/shares/{id}` | Shared playback metadata |
+| GET | `/api/shares/{id}/audio/{kind}` | Shared mix, voice, or backing audio |
+
+Example conversion request:
+
+```json
+{"youtube_url": "https://youtu.be/yXQViqx6GMY", "start": 0, "duration": 30}
+```
+
+Set `duration` to `null` for the remaining full song. Audio endpoints support HTTP Range seeking and `?download=true`. Conversion runs one job at a time, with at most three queued or running jobs in total.
+
+## Frontend build
 
 ```bash
 npm run check
 npm run build
 ```
 
-`dist/`에는 사이트와 오디오 파일만 복사됩니다. 프론트와 서버를 따로 호스팅할 때는 공개 서버 주소를 `USAGI_API_BASE_URL`로 지정하고 빌드합니다. 이 값은 공개 API 주소이므로 비밀 키가 아닙니다. 프레임워크나 프론트 의존성 설치는 필요하지 않습니다.
+`dist/` contains only the frontend and public assets. No frontend framework or third-party JavaScript dependency is required.
 
-`tools/vocal_activity.py`가 보컬 활동과 실제 생성 음성의 빈 구간을 검사하며, 긴 누락 구간을 남긴 결과는 내보내지 않습니다. 커버리지는 자동 감지한 보컬을 기준으로 계산하므로 사람의 전사와 동일한 정답 판정은 아닙니다.
-
-서버용 `Dockerfile`은 FFmpeg, Node.js, Python 의존성을 설치하고 포트 8000에서 실행합니다. 변환이 긴 CPU 작업이므로 서버는 1개 프로세스로 실행합니다. 연결된 CBGPU MCP v1.0.1 설정 상한인 CPU 4코어, RAM 16GB를 기준으로 준비했습니다. 이 값은 MCP가 받는 최대 설정이며 실제 계정의 잔여 할당량이나 물리 서버 사양을 확인한 것은 아닙니다. GPU 할당 항목은 제공되지 않습니다. 저장소 설정은 40~200GB이며, 캐시 보관 한도를 고려해 배포 계획에는 40GB를 지정했습니다. `compose.yaml`과 `deploy/cbgpu-plan.json`에 이 구성이 있습니다. 모델과 작업 저장소는 `/data`를 사용합니다.
+For separate frontend and API deployments:
 
 ```bash
-docker build -t usagi-christmas .
-docker run --rm -p 127.0.0.1:8000:8000 -v usagi-data:/data usagi-christmas
+USAGI_API_BASE_URL=https://your-api.example.com npm run build
 ```
 
-CBGPU 프론트와 서버 배포는 완성도 검토 후 진행하도록 보류되어 있습니다. 배포 프로젝트 생성, GitHub 업로드, 원격 배포는 수행하지 않았습니다.
+This value is a public API origin, not a secret. Configure `USAGI_ALLOWED_ORIGINS` on the server to allow the frontend origin. Same-origin local development uses the default `config.js`.
 
-## 검증
+## Docker and CBGPU
+
+```bash
+docker build -t christmas-usagi .
+docker run --rm -p 127.0.0.1:8000:8000 -v usagi-data:/data christmas-usagi
+```
+
+`compose.yaml` configures four CPU cores, 16 GB RAM, one conversion worker, and a persistent `/data` volume. These match the CBGPU MCP input limits inspected for this project; account capacity and actual deployment performance must be verified separately. No GPU allocation field is exposed by that MCP version. The deployment plan requests 40 GB storage.
+
+- `USAGI_DATA_DIR`: model, job, and share storage; defaults to `.cache/runtime` outside Docker.
+- `USAGI_ALLOWED_ORIGINS`: comma-separated allowed frontend origins.
+- `USAGI_CPU_THREADS`: processing thread count, capped at four.
+- `PORT`: HTTP port, default `8000` in the container.
+
+The API and static frontend are deployed as separate CBGPU projects. Deployment settings and verification records live in `deploy/`.
+
+## Validation
 
 ```bash
 uv pip install --python .venv/bin/python -r server/requirements-dev.txt
 .venv/bin/python -m unittest server.test_app server.test_audio -v
+npm run check
+npm run build
+docker compose --env-file /dev/null config --quiet
 ```
 
-오디오 테스트는 음정이 없는 자음 구간, 긴 보컬 누락, 반주 누출, 유지음 분석과 커버리지 검사를 다룹니다. API 테스트는 URL 검증, 범위 제한, 중복 요청, 대기열·취소, 만료 처리, HTTP Range 재생과 다운로드를 검사합니다. 실제 YouTube 링크를 통한 12초 구간과 약 3분 55초 전체 곡의 변환도 로컬에서 완료했습니다. 전체 곡 공연은 여러 원본 효과음을 사용하며 기본 샘플로 포함되어 있습니다. 브라우저 연결이 제공되지 않아 화면 조작과 청취 검수는 미완료입니다. 현재 Docker 데몬이 실행 중이지 않아 컨테이너 빌드 검증도 남아 있습니다.
+Tests cover input validation, queue limits, cancellation, retry deduplication, missing vocal passages, instrumental leakage, source exclusions, pitch decoding, audio seeking, sharing, expiration, storage limits, and recovery after the original job is removed or the server restarts.
 
-음원 생성 도구는 `tools/fetch_soundbank.py`, `tools/build_preview.py`, `tools/prepare_backing.py`, `tools/expressive.py`, `tools/rap_singing.py`에 있습니다. 원본 효과음의 출처·해시는 `assets/sources/manifest.json`, 샘플 공연의 구절·추임새·반주 데이터와 감지 보컬 대비 실제 발성 커버리지 검사는 `assets/preview.json`에 기록합니다. 우사기 SVG는 비공식 팬 아트입니다. Google Fonts 연결이 없으면 시스템 글꼴을 사용합니다.
+The current local suite has **18 passing tests**. Actual YouTube conversion and seekable shared audio have also been exercised. Browser interaction review was unavailable because the browser host was disconnected. Local container builds were unavailable because the Docker daemon was stopped; remote deployment checks are recorded separately.
 
-### 최신 확인용 파일 (clean4)
+## Project layout
 
-- 전체 곡: `assets/usagi-christmas-preview.mp3`
-- 문제였던 전체 곡 24초 주변(18~32초): `assets/review/24s-clean4.mp3`
-- 후렴(102~126초): `assets/review/chorus-clean4.mp3`
-- 측정 결과와 검증 범위: `deploy/quality-report.json`. 전체 곡 AI 음정 분석은 로컬 4스레드 시험에서 9.53초, 최대 프로세스 메모리 약 885MiB였습니다. 배포 서버의 실측은 아닙니다.
-- 기본 곡과 새 변환 모두 RMVPE 음정 분석을 적용합니다. 기존 잘못된 작업의 자동 복원을 피하도록 브라우저 저장 버전을 갱신했습니다.
-- 단위 테스트 16개, JS 구문 검사, 프론트 파일 빌드, Compose 설정 검증, 실제 YouTube 14초 변환과 HTTP 탐색 검증을 통과했습니다. 브라우저 호스트와 Docker 데몬을 사용할 수 없어 화면 조작 검수·직접 청취·컨테이너 빌드는 완료하지 못했습니다. 아직 배포하지 않았습니다.
+- `index.html`, `style.css`, `script.js`: stage, player, conversion, and sharing UI.
+- `server/`: FastAPI service, conversion worker, and persistent share storage.
+- `tools/`: source collection, neural pitch analysis, arrangement, separation, and frontend packaging.
+- `assets/sources/manifest.json`: soundbank provenance and hashes.
+- `assets/sources/policy.json`: known recording exclusions.
+- `assets/images/sources.json`: official image provenance.
+- `assets/preview.json`: bundled performance arrangement and coverage metadata.
+- `deploy/`: CBGPU configuration and validation records.
 
-무대·로고·플레이어에 실제 공식 우사기 이미지를 적용했습니다. 원본 투명 PNG는 `assets/images/usagi-official.png`, 출처와 원본 해시는 `assets/images/sources.json`에 저장했습니다. 무대에서는 기존 비트 동기화 춤과 응원 동작을 유지합니다.
+## License and credits
 
-### 공연 공유
+Original project source code is licensed under **[Apache License 2.0](LICENSE)**. See [NOTICE](NOTICE) and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
-노래 변환 후 무대 아래 **이 공연 공유하기**에서 링크를 복사하거나 모바일 공유 메뉴를 열 수 있습니다. 링크의 `?share=...`가 있으면 로컬에 저장된 이전 작업보다 공유받은 공연을 먼저 불러옵니다. 재변환 없이 같은 반주·목소리·춤 타이밍을 사용하며 자동 재생하지 않습니다.
+The Apache license does **not** relicense third-party character artwork, sound recordings, songs, generated arrangements incorporating those recordings, model weights, or dependency code. Those materials remain subject to their respective owners' rights and licenses.
 
-`POST /api/jobs/{id}/share`는 완료된 공연의 음원 3개와 재생 메타데이터만 `/data/shares`에 복사합니다. 링크를 아는 사람은 누구나 열 수 있고, 생성일로부터 30일간 보관합니다. 임시 작업의 24시간·최근 10개 정리와 독립적이며 재시작 후에도 유지됩니다. 공유 보관함은 합계 2GiB로 제한하며 가득 차면 기존 공유본을 조기 삭제하는 대신 새 공유 요청을 거절합니다. 만료된 공유는 이후 공유 요청 시 정리됩니다. `GET /api/shares/{id}`와 `/api/shares/{id}/audio/{mix,voice,backing}`로 조회·탐색·다운로드합니다.
+- Usagi and Chiikawa artwork: [official Chiikawa anime website](https://www.anime-chiikawa.jp/), © Nagano / Chiikawa Production Committee. The original transparent PNG is retained with its source and hash.
+- Usagi sound effects: individually attributed [Myinstants recordings](https://www.myinstants.com/ko/search/?name=chiikawa), linked in the soundbank manifest. Source-page labels are not automatic speaker verification.
+- Bundled example song: *All I Want for Christmas Is You*, performed by Mariah Carey. Song and recording rights remain with their respective owners.
+- RMVPE interoperability: [RVC project](https://github.com/RVC-Project/Retrieval-based-Voice-Conversion-WebUI/blob/main/infer/rmvpe.py); weights from [VoiceConversionWebUI](https://huggingface.co/lj1995/VoiceConversionWebUI/blob/main/rmvpe.onnx).
+- Instrumental separation: [UVR model repository](https://github.com/TRvlvr/model_repo/releases/tag/all_public_uvr_models).

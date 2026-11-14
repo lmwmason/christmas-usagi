@@ -5,5 +5,11 @@
   "scripts": {
     "build": "node tools/build_frontend.mjs",
     "check": "node --check script.js && node --check config.js && node --check assets/soundbank.js && node --check assets/performance.js"
+  },
+  "license": "Apache-2.0",
+  "description": "A Christmas stage that arranges Usagi sound samples to your favorite songs.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lmwmason/christmas-usagi.git"
   }
 }

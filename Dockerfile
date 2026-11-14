@@ -7,7 +7,7 @@ COPY server/requirements.txt /app/server/requirements.txt
 RUN pip install --no-cache-dir -r server/requirements.txt
 COPY server /app/server
 COPY tools /app/tools
-COPY THIRD_PARTY_NOTICES.md /app/THIRD_PARTY_NOTICES.md
+COPY THIRD_PARTY_NOTICES.md LICENSE NOTICE /app/
 COPY assets /app/assets
 COPY index.html style.css script.js config.js /app/
 RUN useradd --create-home usagi && mkdir -p /data && chown -R usagi:usagi /data /app
